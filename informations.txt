@@ -1,0 +1,29 @@
+Nettoyage du texte
+
+analyses de données textuelles, 
+telles que le bag of words (CountVectorizer et Tf-idf) 
+et l'apprentissage en profondeur avec l'utilisation de modèles tels que USE et BERT.
+
+
+
+tokenizer_fct(sentence)         : Cette fonction utilise la bibliothèque NLTK pour tokeniser une phrase en mots individuels. 
+                                  Elle supprime également certains caractères spéciaux tels que '-', '+', '/', et '#'.
+
+stop_word_filter_fct(list_words): Cette fonction filtre les mots d'une liste en supprimant les mots qui font partie des "stop words" 
+                                  de la langue anglaise. Elle supprime également les mots ayant une longueur inférieure ou égale à 2 caractères.
+
+lower_start_fct(list_words)     : Cette fonction convertit tous les mots d'une liste en minuscules et supprime les mots commençant par '@', '#', ou 'http'.
+
+lemma_fct(list_words)           : Cette fonction utilise lelemmatisation pour réduire les mots à leur forme de base (lemme). 
+                                  Elle utilise la classe WordNetLemmatizer de NLTK pour effectuer cette tâche.
+
+transform_bow_fct(desc_text)    : Cette fonction prépare le texte pour une représentation bag of words en utilisant les fonctions précédentes. 
+                                  Elle tokenise le texte, filtre les stop words, convertit les mots en minuscules et supprime les mots inutiles. 
+                                  Le texte résultant est renvoyé en tant que chaîne de caractères.
+
+transform_bow_lem_fct(desc_text): Cette fonction est similaire à transform_bow_fct, mais elle effectue également la lemmatisation des mots avant de renvoyer le texte transformé.
+
+transform_dl_fct(desc_text)     : Cette fonction prépare le texte pour l'apprentissage en profondeur (Deep learning) en utilisant les fonctions précédentes. 
+                                  Elle tokenise le texte, convertit les mots en minuscules et supprime les mots inutiles. Le texte résultant est renvoyé 
+                                  en tant que chaîne de caractères.
+                                  

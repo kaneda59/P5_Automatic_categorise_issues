@@ -1,0 +1,84 @@
+fonction clean_text:
+--------------------
+
+1 Supprimer les balises HTML : Utilisation de la bibliothèque BeautifulSoup pour extraire le texte brut 
+  en supprimant les balises HTML présentes dans le texte.
+
+2 Supprimer la ponctuation et les caractères spéciaux : Utilisation de l'expression régulière [^\w] 
+  pour supprimer tous les caractères non alphabétiques du texte. 
+  Seuls les caractères alphabétiques (a-zA-Z) seront conservés.
+
+3 Mettre en minuscule : Convertit tout le texte en minuscules pour assurer la cohérence et réduire la dimensionnalité.
+
+4 Supprimer les mots vides : Utilisation du module nltk pour tokeniser le texte en mots individuels. 
+  Ensuite, filtrer les mots qui font partie de la liste des mots vides (stop words) de la langue anglaise, 
+  tels que "the", "is", "and", etc. Ces mots sont considérés comme non informatifs et sont supprimés du texte.
+
+5 Stemming : Appliquer l'algorithme de stemming de Porter pour réduire les mots à leur forme racine. Par exemple, 
+  les mots "running", "runs" et "ran" seront réduits à "run".
+  
+  il existe une autre stratégie que le stemming : lemmatisation (stemming est une méthode statistiques,  on peut se retrouver avec des mots qui ne sont pas réel, 
+  la lemmatisation se base sur un dictionnaire, s'assure que le mot est un mot réel)
+  quand dans l'interpretation du résultat est important, il vaut mieux utiliser la lemmatisation
+
+6 Rejoindre les tokens en une chaîne de caractères : Les tokens (mots) nettoyés sont ensuite réassemblés en une 
+  seule chaîne de caractères, séparés par des espaces.
+  
+  il faut retraviller les tags, par exemple C++ doit revenir CPlusPlus ou cplusplus et il faut réinterpreter a partir de ces tags, 
+  puis relancer l'algorithme complet (mettre également tous les tags en minuscule)
+  
+  a la fin refaire le process inverse pour remettre cplusplus en c++ a la fin du traitement
+  
+  il est important de faire une TDA sur les tags (nb tags moyens, etc)
+  
+ nettoyage :
+ -----------
+ 
+1 Supprimer les lignes ayant des valeurs manquantes dans les colonnes 'Body' et 'Title' du DataFrame 'data'. 
+  Cela se fait en utilisant la méthode dropna() avec l'argument subset=['Body', 'Title'].
+
+2 Appliquer la fonction clean_text sur la colonne 'Body' et 'Title' du DataFrame 'data'. 
+  Cela se fait en utilisant la méthode apply() et en passant la fonction clean_text comme argument. 
+  Les résultats de cette opération sont assignés aux nouvelles colonnes 'cleaned_body' et 'cleaned_title' 
+  respectivement.
+
+3 Concaténer les colonnes 'cleaned_body' et 'cleaned_title' pour former une nouvelle colonne 'combined_text'. 
+  Cela se fait en utilisant l'opérateur '+' pour concaténer les deux colonnes, avec un espace (' ') comme séparateur.
+
+4 Sélectionner les colonnes pertinentes pour la classification multi-label. La variable 'X' est assignée à 
+  la colonne 'combined_text', qui contient le texte nettoyé combinant à la fois le corps et le titre des données. 
+   La variable 'y' est assignée à la colonne 'Tags' du DataFrame 'data', après avoir été transformée en une liste 
+   de tags à partir de la chaîne de caractères d'origine en utilisant les opérations split('<')[1:] et tag[:-1].
+   
+ Transformation binaire des tags :
+ -------------------------------
+ 
+ 1 Création d'une instance de la classe MultiLabelBinarizer sous le nom mlb.
+
+ 2 Utilisation de la méthode fit_transform() de mlb pour transformer la variable y en une représentation 
+   binaire multi-label. La méthode fit_transform() effectue deux opérations en une seule étape :
+
+  Ajuster le MultiLabelBinarizer aux tags présents dans y, c'est-à-dire apprendre les différentes classes de tags.
+  Transfomer les tags en un format binaire où chaque tag est représenté par une colonne binaire distincte. 
+  Chaque exemple peut être associé à plusieurs tags, ce qui signifie qu'il peut y avoir plusieurs colonnes 
+  avec la valeur 1 pour un exemple donné.
+  
+  Vecteurs de caractéristiques TF-IDF:
+  -----------------------------------
+  
+     TF-IDF (Term Frequency-Inverse Document Frequency) est une étape importante dans le traitement du texte. 
+     Cette étape permet de représenter les données textuelles sous une forme numérique qui peut être utilisée par des algorithmes d'apprentissage automatique.
+     
+ 1 Création d'une instance de la classe TfidfVectorizer sous le nom vectorizer. 
+   Cette classe est fournie par la bibliothèque scikit-learn et permet de convertir le texte en vecteurs de caractéristiques TF-IDF.
+
+ 2 La méthode fit_transform() de vectorizer est utilisée pour transformer le texte contenu dans la variable X en vecteurs de caractéristiques TF-IDF. 
+   Cette méthode effectue deux opérations en une seule étape :
+
+ 3 Elle ajuste le TfidfVectorizer aux données textuelles présentes dans X, c'est-à-dire qu'elle apprend le vocabulaire des mots 
+   et calcule les statistiques nécessaires pour calculer les valeurs TF-IDF.
+   Elle transforme les données textuelles en vecteurs de caractéristiques TF-IDF. 
+   Chaque document est représenté par un vecteur où chaque composante correspond à un terme spécifique du vocabulaire, 
+   et la valeur de chaque composante est la mesure TF-IDF de ce terme dans le document.    
+   
+  

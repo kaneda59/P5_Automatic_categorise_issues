@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>StackOverflow API Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">      
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <img src="get.png" alt="Titre de l'API" style="display: block; margin: 0 auto;">  
+    <center><h1>Catégorisez automatiquement des questions</h1></center>
+
+    
+    <div id="formContainer">
+        <div class="form-group">
+            <label for="fileInput">Upload CSV file:</label>
+            <input type="file" class="form-control-file" name="file" id="fileInput">
+        </div>
+        <div class="form-group">
+            <label for="bodyInput">Comment:</label>
+            <textarea class="form-control" name="body" id="bodyInput" rows="4" placeholder="Enter your comment"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="tagsInput">Tags:</label>
+            <input type="text" class="form-control" name="tags" id="tagsInput" placeholder="Enter tags (comma-separated)">
+        </div>
+        <button class="btn btn-primary" id="submitBtn">Submit</button>
+    </div>
+    
+    
+
+    <div id="result" style="display: none;"></div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+            var formData = new FormData(document.getElementById('uploadForm'));
+
+            fetch('/predict_tags', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '';
+
+                if (data.predictions) {
+                    data.predictions.forEach(prediction => {
+                        var body = prediction.Body;
+                        var tags = prediction.PredictedTags.join(', ');
+
+                        var resultElement = document.createElement('p');
+                        resultElement.innerHTML = `<strong>Comment:</strong> ${body}<br><strong>Predicted Tags:</strong> ${tags}<br><br>`;
+                        resultDiv.appendChild(resultElement);
+                    });
+                } else {
+                    resultDiv.innerHTML = 'No predictions available.';
+                }
+
+                // Afficher les résultats et masquer le formulaire
+                document.getElementById('formContainer').style.display = 'none';
+                resultDiv.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
