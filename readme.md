@@ -28,3 +28,33 @@ AND Score > 5 AND AnswerCount > 0 AND LEN(Tags) - LEN(REPLACE(Tags, '<','')) >= 
 * Mettre en place une méthode d’évaluation propre, avec une séparation du jeu de données pour l’évaluation.
 * Utiliser un logiciel de gestion de versions, par exemple Git, pour suivre les modifications du code final à déployer
 
+# Installation et utilisation de l'API de prédiction de tags
+
+L'API de prédiction de tags est conçue pour prédire des tags à partir de commentaires textuels. Voici les étapes pour installer et utiliser cette API :
+
+## Installation
+1. Assurez-vous d'avoir Python 3.x installé sur votre système.
+2. Téléchargez les fichiers de l'API de prédiction de tags.
+3. Installez les dépendances requises en exécutant la commande suivante dans un terminal :
+
+`pip install -r requirements.txt`
+
+
+## Utilisation
+1. Lancez l'API en exécutant le fichier `app.py` dans un terminal :
+
+`python app.py`
+
+2. L'API sera accessible à l'adresse `http://localhost:5000`.
+3. Pour vérifier que l'API fonctionne correctement, ouvrez un navigateur web et accédez à l'URL `http://localhost:5000/`. Vous devriez voir le message "Hello, I work!" s'afficher, ce qui indique que l'API est en cours d'exécution.
+4. Pour prédire des tags à partir d'un fichier CSV, utilisez l'URL `http://localhost:5000/predict_tags` avec une requête POST. Vous pouvez utiliser des outils tels que Postman ou cURL pour envoyer des requêtes POST à l'API.
+- Incluez le fichier CSV en utilisant la clé `file` dans la requête POST.
+- Assurez-vous que le fichier CSV contient les colonnes "Body" (commentaires textuels) et "Tags" (tags correspondants).
+- Les tags doivent être séparés par des virgules s'ils sont multiples pour un commentaire.
+5. L'API renverra une réponse JSON contenant les prédictions de tags pour chaque commentaire.
+
+Notez que vous pouvez personnaliser le modèle de prédiction en remplaçant le fichier du modèle `classification_genginemodel_fabrice_deprez_OPP5_062023.pkl` par votre propre modèle entraîné.
+
+Assurez-vous également d'avoir les droits appropriés pour accéder aux fichiers et aux ports requis par l'API.
+
+N'hésitez pas à ajuster les paramètres de l'API en fonction de vos besoins spécifiques.
